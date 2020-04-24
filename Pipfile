@@ -8,6 +8,7 @@ verify_ssl = true
 [packages]
 selenium = "*"
 sanic = "*"
+peewee = "*"
 
 [requires]
 python_version = "3.6"
