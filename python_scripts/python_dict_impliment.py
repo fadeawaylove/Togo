@@ -101,7 +101,7 @@ class DictObj(object):
 
     def _real_look_dict(self, index, key_hash):
         slot = self.ma_table[index]
-        if slot.is_active:  # active
+        if slot.is_active or slot.is_dummy:  # active或者dummy
             if slot.me_hash != key_hash:
                 next_index = self._probing(index, self.ma_mask)
                 index = self._real_look_dict(next_index, key_hash)
