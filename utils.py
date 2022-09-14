@@ -1,8 +1,26 @@
 import os
-
+import threading
 import json
 
 from constants import HOME_DIR
+
+
+class TaskUtil:
+
+    def __init__(self, task_func, task_args=(), task_kw=None, callback=None, call_args=(), call_kw=None):
+        self.task_func = task_func
+        self.task_args = task_args
+        self.task_kw = task_kw or {}
+        self.callback = callback
+        self.call_args = call_args
+        self.call_kw = call_kw or {}
+
+    def _run(self):
+        self.task_func(*self.task_args, **self.task_kw)
+        self.callback(*self.call_args, **self.call_kw)
+
+    def run(self):
+        threading.Thread(target=self._run).start()
 
 
 class ConfigUtil:
@@ -46,3 +64,11 @@ class ConfigUtil:
     @classmethod
     def get_cache_dir(cls):
         return cls.get("cache_dir")
+
+    @classmethod
+    def get_default_repo(cls):
+        return cls.get("default_repo")
+
+    @classmethod
+    def set_default_repo(cls, val):
+        return cls.set("default_repo", val)
